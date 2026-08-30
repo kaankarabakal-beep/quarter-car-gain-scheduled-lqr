@@ -122,7 +122,6 @@ quarter-car-gain-scheduled-lqr/
     ├── model3b_animation.m
     └── Model3B_Animation.mp4
 
-```markdown
 ## Requirements
 
 - MATLAB

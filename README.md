@@ -121,6 +121,8 @@ quarter-car-gain-scheduled-lqr/
     ├── Model3B_teaser.png
     ├── model3b_animation.m
     └── Model3B_Animation.mp4
+```
+
 
 ## Requirements
 

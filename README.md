@@ -69,7 +69,88 @@ To move beyond an idealized controller, the final Model 3B implementation includ
 
 
 These constraints were included to evaluate the controller under more realistic implementation conditions rather than under unconstrained ideal actuation and instantaneous measurements.
+## Key Results
+
+On the common composite benchmark road, Model 3B was compared with the fixed Balanced LQR controller under the same actuator force and force-rate limits.
+
+| Metric | Fixed LQR | Model 3B | Change |
+|---|---:|---:|---:|
+| Body acceleration RMS | 1.232 m/s² | 1.219 m/s² | -1.0% |
+| Peak body acceleration | 5.976 m/s² | 5.232 m/s² | -12.4% |
+| Peak suspension travel | 33.487 mm | 30.714 mm | -8.3% |
+| Peak tire deflection | 16.622 mm | 15.288 mm | -8.0% |
+| Actuator force RMS | 118.6 N | 128.5 N | +8.3% |
+| Peak actuator force | 529.65 N | 750 N | Saturated |
+
+The main benefit of the scheduler is therefore not uniform reduction of every performance metric, but the ability to change the suspension trade-off according to the dominant measured response.
 
 
-Add scheduler diagram and implementation constraints
+## Robustness Evaluation
+
+The final controller was tested without retuning the controller gains, scheduling thresholds, RMS windows, or transient hold periods.
+
+The robustness studies included:
+
+- bump heights of 15, 30, and 45 mm
+- vehicle speeds of 5, 10, and 15 m/s
+- previously unseen deterministic multi-sine road profiles
+- sensor transport delay
+- measurement noise
+
+The scheduler remained operational across all tested conditions. On unseen road profiles, the controller did not uniformly outperform the fixed LQR in every metric; instead, it shifted between control priorities depending on the measured vehicle response.
+
+In the combined sensor-realism tests, the nominal bump was consistently confirmed as a shock under all tested noise levels, while the wheel-hop region was not incorrectly classified as a shock.
+
+
+## Repository Structure
+
+```text
+quarter-car-gain-scheduled-lqr/
+├── src/
+│   ├── model1_model2_passive_fixed_lqr.m
+│   ├── model3a_manual_scheduling.m
+│   └── model3b_response_based.m
+│
+├── report/
+│   └── Quarter_Car_Active_Suspension_Report.pdf
+│
+├── figures/
+│   └── scheduler_logic.png
+│
+└── visualization/
+    ├── Model3B_teaser.png
+    ├── model3b_animation.m
+    └── Model3B_Animation.mp4
+
+```markdown
+## Requirements
+
+- MATLAB
+- Control System Toolbox
+
+The project uses MATLAB's state-space modeling, numerical integration, and LQR design tools.
+
+
+## How to Run
+
+Clone or download the repository and open the project folder in MATLAB.
+
+For the main simulations:
+
+1. Run `src/model1_model2_passive_fixed_lqr.m` for the passive and fixed-LQR stages.
+2. Run `src/model3a_manual_scheduling.m` for the manually scheduled reference controller.
+3. Run `src/model3b_response_based.m` for the final response-based gain-scheduled controller and robustness studies.
+
+The main Model 3B script contains the controller bank, response-based scheduler, actuator and sensor constraints, benchmark-road evaluation, and robustness tests.
+
+
+## Full Report
+
+A complete description of the mathematical model, LQR formulation, scheduling logic, implementation constraints, and robustness evaluation is available in the project report:
+
+[**View Full Project Report**](report/Quarter_Car_Active_Suspension_Report.pdf)
+
+## Scope
+
+This project is a simulation-based proof of concept using a linear two-degree-of-freedom quarter-car model. It does not represent a production-ready automotive control system.
 

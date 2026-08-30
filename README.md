@@ -46,3 +46,30 @@ to select between four LQR controllers: **Balanced**, **Comfort**, **Low Force**
 
 The scheduler combines slower RMS-based response classification with a faster transient-detection layer for short disturbance events.
 
+## Scheduling Logic
+
+<p align="center">
+  <img src="figures/scheduler_logic.png" width="900">
+</p>
+
+<p align="center">
+  <i>Hierarchical response-based scheduling logic used in Model 3B.</i>
+</p>
+
+
+## Implementation Constraints
+
+To move beyond an idealized controller, the final Model 3B implementation includes:
+
+- actuator force limit: **±750 N**
+- actuator force-rate limit: **50,000 N/s**
+- sensor sampling frequency: **500 Hz**
+- sensor transport delay: **4 ms**
+- measurement-noise robustness tests
+
+
+These constraints were included to evaluate the controller under more realistic implementation conditions rather than under unconstrained ideal actuation and instantaneous measurements.
+
+
+Add scheduler diagram and implementation constraints
+
